@@ -1,0 +1,12 @@
+# O que falta
+- Banco de dados
+    - Docker imagem
+    - Flyway Migration
+    - JPA
+- Framework web
+    - npm
+    - pnpm
+    - node?
+- Thymeleaf
+    - Dependencias
+    - Como usar?
