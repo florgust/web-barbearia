@@ -1,6 +1,10 @@
 spring:
     application:
         name: barbearia
+    datasource:
+        url: jdbc:postgresql://localhost:5432/postgres
+        username: postgres
+        password: "0001"
 
     thymeleaf:
         prefix: classpath:/templates/
