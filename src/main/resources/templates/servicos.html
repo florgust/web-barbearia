@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Serviços - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="js/servicos.js" defer></script>
+</head>
+
+<body class="bg-gray-900 text-white font-sans">
+
+    <!-- Navbar -->
+    <header class="bg-gray-800 text-yellow-400 py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">Gestão de Serviços</a>
+            <a href="#criarServicoModal" class="bg-yellow-500 text-black py-2 px-6 rounded-md">Criar Novo Serviço</a>
+        </div>
+    </header>
+
+    <!-- Lista de Serviços -->
+    <section class="container mx-auto py-12">
+        <h2 class="text-3xl font-bold text-yellow-400 mb-8 text-center">Serviços Disponíveis</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+
+            <!-- Card de Serviço (Exemplo) -->
+            <div class="card bg-gray-700 rounded-lg overflow-hidden shadow-lg">
+                <img src="https://via.placeholder.com/150" alt="Serviço 1" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h5 class="text-xl font-bold text-white">Corte Masculino</h5>
+                    <p class="text-sm text-gray-400">Corte moderno e personalizado, feito especialmente para você.</p>
+                    <div class="mt-4 flex justify-between items-center">
+                        <button class="btn bg-yellow-500 text-black px-4 py-2 rounded"
+                            onclick="editServico(1)">Editar</button>
+                        <button class="btn bg-red-500 text-white px-4 py-2 rounded"
+                            onclick="deleteServico(1)">Deletar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outros cards de serviços podem ser gerados dinamicamente -->
+
+        </div>
+    </section>
+
+    <!-- Modal de Criação de Serviço -->
+    <div id="criarServicoModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
+        <div class="bg-gray-800 p-8 rounded-lg w-1/2">
+            <h3 class="text-2xl font-bold text-yellow-400 mb-6">Criar Novo Serviço</h3>
+            <form id="formCriarServico">
+                <div class="mb-4">
+                    <label for="nome" class="block text-sm font-medium text-white">Nome do Serviço:</label>
+                    <input type="text" id="nome" name="nome"
+                        class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md" required>
+                </div>
+                <div class="mb-4">
+                    <label for="descricao" class="block text-sm font-medium text-white">Descrição:</label>
+                    <textarea id="descricao" name="descricao"
+                        class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="preco" class="block text-sm font-medium text-white">Preço:</label>
+                    <input type="number" id="preco" name="preco"
+                        class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md" required>
+                </div>
+                <div class="mb-4">
+                    <label for="tempo" class="block text-sm font-medium text-white">Tempo Estimado (min):</label>
+                    <input type="number" id="tempo" name="tempo"
+                        class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md" required>
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" class="btn bg-gray-600 text-white py-2 px-6 rounded"
+                        onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn bg-yellow-500 text-black py-2 px-6 rounded">Criar Serviço</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
