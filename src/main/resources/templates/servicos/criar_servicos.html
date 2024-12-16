@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${servico.id == null} ? 'Criar Novo Serviço' : 'Editar Serviço'">Criar/Editar Serviço</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900 text-white font-sans">
+    <header class="bg-gray-800 text-yellow-400 py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/servicos" class="text-2xl font-bold">Voltar</a>
+            <h1 class="text-xl" th:text="${servico.id == null} ? 'Criar Novo Serviço' : 'Editar Serviço'">Criar/Editar Serviço</h1>
+        </div>
+    </header>
+
+    <section class="container mx-auto py-12">
+        <h2 class="text-3xl font-bold text-yellow-400 mb-6 text-center" th:text="${servico.id == null} ? 'Novo Serviço' : 'Editar Serviço'"></h2>
+        <form th:action="@{${servico.id != null} ? '/servicos/editar' : '/servicos/nova'}" th:object="${servico}" method="post" class="bg-gray-800 p-8 rounded-lg max-w-lg mx-auto">
+            <!-- Campo oculto para ID do Serviço -->
+            <input type="hidden" th:field="*{id}" />
+
+            <!-- Campo oculto para urlImagem do Serviço -->
+            <input type="hidden" th:field="*{urlImagem}" />
+
+            <!-- Campo para Nome do Serviço -->
+            <div class="mb-4">
+                <label for="titulo" class="block text-sm font-medium text-white">Nome do Serviço:</label>
+                <input type="text" id="titulo" name="titulo" th:field="*{titulo}" class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md" required>
+            </div>
+
+            <!-- Campo para Descrição -->
+            <div class="mb-4">
+                <label for="descricao" class="block text-sm font-medium text-white">Descrição:</label>
+                <textarea id="descricao" name="descricao" th:field="*{descricao}" class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md" required></textarea>
+            </div>
+
+            <!-- Campo para Preço -->
+            <div class="mb-4">
+                <label for="preco" class="block text-sm font-medium text-white">Preço:</label>
+                <input type="number" id="preco" name="preco" th:field="*{preco}" class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md" required>
+            </div>
+
+            <!-- Campo para Tempo Estimado -->
+            <div class="mb-4">
+                <label for="tempo" class="block text-sm font-medium text-white">Tempo Estimado:</label>
+                <input type="number" id="tempo" name="tempoDuracao" th:field="*{tempoDuracao}" class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-md" required>
+            </div>
+
+            <!-- Botões -->
+            <div class="flex justify-end space-x-4">
+                <a href="/servicos" class="btn bg-gray-600 text-white py-2 px-6 rounded">Cancelar</a>
+                <button type="submit" class="btn bg-yellow-500 text-black py-2 px-6 rounded" th:text="${servico.id == null} ? 'Criar Serviço' : 'Salvar Alterações'"></button>
+            </div>
+        </form>
+    </section>
+</body>
+
+</html>

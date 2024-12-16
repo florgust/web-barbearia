@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia Web</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900 text-white font-sans">
+
+    <!-- Navbar -->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top bg-gray-800 shadow-md">
+        <div class="container-fluid">
+            <a class="navbar-brand text-xl font-bold text-yellow-400" href="#">Barbearia Web</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto space-x-6">
+                    <li class="nav-item"><a class="nav-link text-white hover:text-yellow-400"
+                            href="#servicos">Serviços</a></li>
+                    <li class="nav-item"><a class="nav-link text-white hover:text-yellow-400"
+                            href="#contato">Agendar</a></li>
+                    <li class="nav-item"><a class="nav-link text-white hover:text-yellow-400"
+                            th:href="@{/servicos}">Criação</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Carrossel -->
+    <section class="carousel-section mt-28">
+        <div id="carouselBarbearia" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="images/imagemBarbearia3.webp" class="d-block w-100 h-96 object-cover" alt="Foto 1">
+                    <div
+                        class="carousel-caption d-none d-md-block bg-gray-800 bg-opacity-60 p-4 rounded-md text-center">
+                        <h5 class="text-xl font-bold text-yellow-400">Transforme o seu visual com profissionalismo e
+                            personalização</h5>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="images/imagemBarbearia1.webp" class="d-block w-100 h-96 object-cover" alt="Foto 2">
+                    <div
+                        class="carousel-caption d-none d-md-block bg-gray-800 bg-opacity-60 p-4 rounded-md text-center">
+                        <h5 class="text-xl font-bold text-yellow-400">Confiança e estilo em cada detalhe</h5>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="images/imagemBarbearia2.webp" class="d-block w-100 h-96 object-cover" alt="Foto 3">
+                    <div
+                        class="carousel-caption d-none d-md-block bg-gray-800 bg-opacity-60 p-4 rounded-md text-center">
+                        <h5 class="text-xl font-bold text-yellow-400">Experiência única e incomparável</h5>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselBarbearia"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselBarbearia"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Próximo</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Lista de Serviços -->
+    <section class="container mx-auto py-12">
+        <h2 class="text-3xl font-bold text-yellow-400 mb-8 text-center">Serviços Disponíveis</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Iterando sobre a lista de serviços -->
+            <div th:each="servico : ${barbearia}" class="card bg-gray-700 rounded-lg overflow-hidden shadow-lg">
+                <img th:src="${servico.urlImagem}" alt="Serviço" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h5 th:text="${servico.titulo}" class="text-xl font-bold text-black"></h5>
+                    <p th:text="${servico.descricao}" class="text-sm text-black"></p>
+                    <div class="mt-4 flex justify-between items-center">
+                        <p th:text="'Preço: R$ ' + ${servico.preco}" class="text-sm text-gray-600"></p>
+                        <p th:text="'Duração: ' + ${servico.tempoDuracao}" class="text-sm text-gray-600"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Formulário de Agendamento -->
+    <section id="contato" class="bg-gray-900 text-white py-16">
+        <div class="container">
+            <h2 class="text-3xl font-bold text-yellow-400 mb-8 text-center">Agende seu Horário</h2>
+            <form th:action="@{/agendar}" method="post" class="space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label for="nome" class="block text-sm font-medium">Nome:</label>
+                        <input type="text" id="nome" name="nome"
+                            class="form-input w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-md"
+                            placeholder="Seu nome" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium">E-mail:</label>
+                        <input type="email" id="email" name="email"
+                            class="form-input w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-md"
+                            placeholder="Seu e-mail" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="servico" class="block text-sm font-medium">Serviço:</label>
+                    <select id="servico" name="servico"
+                        class="form-input w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-md">
+                        <option value="Corte Masculino">Corte Masculino</option>
+                        <option value="Barba Dourada">Barba Dourada</option>
+                        <option value="Tratamento Capilar">Tratamento Capilar</option>
+                        <option value="Hidratação de Barba">Hidratação de Barba</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="data" class="block text-sm font-medium">Data e Hora:</label>
+                    <input type="datetime-local" id="data" name="data"
+                        class="form-input w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-md" required>
+                </div>
+                <button type="submit" class="text-3xl font-bold text-yellow-400 mb-8 text-center">Agendar Agora</button>
+            </form>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
