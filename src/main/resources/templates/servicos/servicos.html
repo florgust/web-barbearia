@@ -35,8 +35,8 @@
                         <p th:text="'Duração: ' + ${servico.tempoDuracao}" class="text-sm text-white"></p>
                     </div>
                     <div class="mt-4 flex justify-between items-center">
-                        <button th:onclick="'editServico(' + ${servico.id} + ')'"
-                            class="btn bg-yellow-500 text-black px-4 py-2 rounded">Editar</button>
+                        <a th:href="@{'/servicos/editar?id=' + ${servico.id}}"
+                            class="btn bg-yellow-500 text-black px-4 py-2 rounded">Editar</a>
                         <button type="button" th:onclick="'deleteServico(' + ${servico.id} + ')'" class="btn bg-red-500 text-white px-4 py-2 rounded">Deletar</button>
                     </div>
                 </div>

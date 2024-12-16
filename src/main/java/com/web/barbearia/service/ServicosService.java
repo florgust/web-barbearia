@@ -32,6 +32,16 @@ public class ServicosService {
         servicosRepository.save(servicos);
     }
 
+    public void editar(Servicos servicos) {
+        Servicos servicoExistente = findById(servicos.getId());
+        servicoExistente.setTitulo(servicos.getTitulo());
+        servicoExistente.setDescricao(servicos.getDescricao());
+        servicoExistente.setPreco(servicos.getPreco());
+        servicoExistente.setTempoDuracao(formatarTempo(servicos.getTempoDuracao()));
+        servicoExistente.setUrlImagem(servicos.getUrlImagem());
+        servicosRepository.save(servicoExistente);
+    }
+
     private String formatarTempo(String tempo) {
         int minutos = Integer.parseInt(tempo);
         Duration duration = Duration.ofMinutes(minutos);
@@ -41,5 +51,10 @@ public class ServicosService {
 
     public void delete(Servicos servico) {
         servicosRepository.delete(servico);
+    }
+
+    public Servicos findById(Long id) {
+        return servicosRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Serviço não encontrado"));
     }
 }

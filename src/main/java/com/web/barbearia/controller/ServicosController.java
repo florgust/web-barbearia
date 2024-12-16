@@ -8,14 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.web.barbearia.model.Servicos;
 import com.web.barbearia.service.ServicosService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 @Controller
 @RequestMapping("/servicos")
@@ -34,10 +33,11 @@ public class ServicosController {
         logger.info("-- Encaminhando para a view servicos");
         return "servicos/servicos";
     }
-    
+
     @GetMapping("/nova")
-    public String novoServicoForm() {
+    public String novoServicoForm(Model model) {
         logger.info("Entrou em nova");
+        model.addAttribute("servico", new Servicos());
         return "servicos/criar_servicos";
     }
 
@@ -49,11 +49,24 @@ public class ServicosController {
         return "redirect:/servicos";
     }
 
+    @GetMapping("/editar")
+    public String editarServicoForm(@RequestParam("id") Long id, Model model) {
+        Servicos servico = service.findById(id);
+        model.addAttribute("servico", servico);
+        return "servicos/criar_servicos";
+    }
+
+    @PostMapping("/editar")
+    public String editarServicoForm(Servicos servico) {
+        logger.info("Entrou em editar");
+        service.editar(servico);
+        return "redirect:/servicos";
+    }
+
     @PostMapping("/remover")
     public String remover(Servicos servico) {
         service.delete(servico);
         return "redirect:/servicos";
     }
-    
-    
+
 }
