@@ -1,8 +1,8 @@
 -- Inserção de um registro na tabela Pessoa
 INSERT INTO Pessoa (Nome, Senha, Nascimento, Email, Telefone, Tipo)
 VALUES 
-('João Silva', 'senha123', '1990-05-15', 'joao.silva@gmail.com', '123456789', 1),
-('Maria Oliveira', 'senha456', '1985-08-20', 'maria.oliveira@gmail.com', '987654321', 2);
+('João Silva', '6bb4837eb74329105ee4568dda7dc67ed2ca2ad9', '1990-05-15', 'joao.silva@gmail.com', '123456789', 1), -- senha123
+('Maria Oliveira', 'd033e22ae348aeb5660fc2140aec35850c4da997', '1985-08-20', 'maria.oliveira@gmail.com', '987654321', 2); -- senha456
 
 -- Inserção de um registro na tabela Servicos
 INSERT INTO Servicos (Titulo, Descricao, Preco, Tempo_Duracao)
