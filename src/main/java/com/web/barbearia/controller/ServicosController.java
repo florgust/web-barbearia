@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.web.barbearia.model.Servicos;
-import com.web.barbearia.repository.ServicosRepository;
 import com.web.barbearia.service.ServicosService;
 
 import lombok.RequiredArgsConstructor;
@@ -45,7 +44,7 @@ public class ServicosController {
         logger.info("Entrou em nova/salvar");
         servico.setUrlImagem("images/padrao.webp");
         service.create(servico);
-        return "redirect:/servicos/servicos";
+        return "redirect:/servicos";
     }
     
 }
