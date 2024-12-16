@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.web.barbearia.model.Servicos;
 import com.web.barbearia.repository.ServicosRepository;
+import com.web.barbearia.service.ServicosService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequestMapping("/servicos")
@@ -20,20 +22,30 @@ import lombok.RequiredArgsConstructor;
 public class ServicosController {
     private static final Logger logger = LoggerFactory.getLogger(ServiceController.class);
 
-    private final ServicosRepository servicosRepository;
+    private final ServicosService service;
 
-    @GetMapping("/criacao")
-    public String servicos() {
+    @GetMapping()
+    public String servicos(Model model) {
         logger.info("-- Entrou em servicos");
+        List<Servicos> servicos = service.findAll();
+        logger.info("lista de servicos: {}", servicos);
+        model.addAttribute("servicos_lista", servicos);
         logger.info("-- Encaminhando para a view servicos");
-        return "servicos";
+        return "servicos/servicos";
+    }
+    
+    @GetMapping("/nova")
+    public String novoServicoForm() {
+        logger.info("Entrou em nova");
+        return "servicos/criar_servicos";
     }
 
-    @GetMapping("/getServicos")
-    public String getServicos(Model model) {
-        List<Servicos> servicos = servicosRepository.findAll();
-        model.addAttribute("servicos", servicos);
-        return "servicos";
+    @PostMapping("/nova")
+    public String criarServico(Servicos servico) {
+        logger.info("Entrou em nova/salvar");
+        servico.setUrlImagem("images/padrao.webp");
+        service.create(servico);
+        return "redirect:/servicos/servicos";
     }
     
 }
