@@ -14,6 +14,8 @@ import com.web.barbearia.service.ServicosService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 @RequestMapping("/servicos")
@@ -46,5 +48,12 @@ public class ServicosController {
         service.create(servico);
         return "redirect:/servicos";
     }
+
+    @PostMapping("/remover")
+    public String remover(Servicos servico) {
+        service.delete(servico);
+        return "redirect:/servicos";
+    }
+    
     
 }

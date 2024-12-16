@@ -38,4 +38,8 @@ public class ServicosService {
         LocalTime time = LocalTime.ofSecondOfDay(duration.getSeconds());
         return time.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
+
+    public void delete(Servicos servico) {
+        servicosRepository.delete(servico);
+    }
 }
