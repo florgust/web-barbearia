@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum TipoPessoa {
-    USER(1),
-    ADM(2);
+    USER(2),
+    ADM(1);
 
     private int value;
 
