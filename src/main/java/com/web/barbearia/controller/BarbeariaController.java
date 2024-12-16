@@ -18,5 +18,4 @@ public class BarbeariaController {
         logger.info("-- Encaminhando para a view barbearia");
         return "barbearia";
     }
-
 }
