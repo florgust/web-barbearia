@@ -5,13 +5,16 @@ CREATE TABLE Pessoa (
     Senha VARCHAR(255) NOT NULL,
     Nascimento DATE NOT NULL,
     Email VARCHAR(150) UNIQUE NOT NULL,
-    Telefone VARCHAR(15) NOT NULL
+    Telefone VARCHAR(15) NOT NULL,
+    Tipo INT NOT NULL
 );
 
 -- Criação da tabela Servicos
 CREATE TABLE Servicos (
     ID SERIAL PRIMARY KEY,
-    Descricao VARCHAR(100) NOT NULL,
+    Titulo VARCHAR(100) NOT NULL,
+    Descricao VARCHAR(255) NOT NULL,
+    URL_Imagem VARCHAR(255),
     Preco NUMERIC(10, 2) NOT NULL,
     Tempo_Duracao INTERVAL NOT NULL
 );
