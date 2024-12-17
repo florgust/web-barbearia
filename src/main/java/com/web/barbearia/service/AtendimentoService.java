@@ -27,7 +27,7 @@ public class AtendimentoService {
     }
 
     public void criar(String date, String time, Long idServico) {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
         LocalDate localDate = LocalDate.parse(formatString(date), dateFormatter);
