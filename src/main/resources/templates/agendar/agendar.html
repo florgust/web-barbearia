@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .calendar-card {
+            min-height: 150px;
+        }
+
+        .calendar-slot {
+            margin-bottom: 10px;
+        }
+
+        .calendar-slot:disabled {
+            background-color: red;
+        }
+
+        /* Adiciona padding-top para compensar a altura da navbar fixa */
+        body {
+            padding-top: 70px;
+            /* Ajuste este valor conforme necessário */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white font-sans">
+
+    <!-- Navbar -->
+    <header class="navbar navbar-expand-lg navbar-dark fixed-top bg-gray-800 shadow-md">
+        <div class="container-fluid">
+            <a class="navbar-brand text-xl font-bold text-yellow-400" href="/barbearia">Agendamento Web</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Calendário -->
+    <div class="container mx-auto py-8">
+        <div class="flex justify-between items-center mb-4">
+            <button id="prev-week" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                Semana Anterior
+            </button>
+            <button id="next-week" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                Próxima Semana
+            </button>
+        </div>
+
+        <div class="grid grid-cols-6 gap-4">
+            <div class="calendar-card bg-gray-700 p-4 rounded shadow" id="monday">
+                <h3 class="text-lg font-bold text-gray-200" id="monday-date">Segunda</h3>
+                <div class="mt-2 space-y-2" id="monday-slots"></div>
+            </div>
+            <div class="calendar-card bg-gray-700 p-4 rounded shadow" id="tuesday">
+                <h3 class="text-lg font-bold text-gray-200" id="tuesday-date">Terça</h3>
+                <div class="mt-2 space-y-2" id="tuesday-slots"></div>
+            </div>
+            <div class="calendar-card bg-gray-700 p-4 rounded shadow" id="wednesday">
+                <h3 class="text-lg font-bold text-gray-200" id="wednesday-date">Quarta</h3>
+                <div class="mt-2 space-y-2" id="wednesday-slots"></div>
+            </div>
+            <div class="calendar-card bg-gray-700 p-4 rounded shadow" id="thursday">
+                <h3 class="text-lg font-bold text-gray-200" id="thursday-date">Quinta</h3>
+                <div class="mt-2 space-y-2" id="thursday-slots"></div>
+            </div>
+            <div class="calendar-card bg-gray-700 p-4 rounded shadow" id="friday">
+                <h3 class="text-lg font-bold text-gray-200" id="friday-date">Sexta</h3>
+                <div class="mt-2 space-y-2" id="friday-slots"></div>
+            </div>
+            <div class="calendar-card bg-gray-700 p-4 rounded shadow" id="saturday">
+                <h3 class="text-lg font-bold text-gray-200" id="saturday-date">Sábado</h3>
+                <div class="mt-2 space-y-2" id="saturday-slots"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulário para enviar os dados selecionados -->
+    <form id="agendar-form"
+        th:action="@{/agendar/criar(selectedDate=${selectedDate}, selectedTime=${selectedTime}, servicoId=${servico.id})}"
+        method="post">
+        <input type="hidden" id="selected-date" name="selectedDate">
+        <input type="hidden" id="selected-time" name="selectedTime">
+        <input type="hidden" id="servico-id" name="servicoId" th:value="${servico.id}">
+        <button id="btn-agendar"
+            class="mx-auto my-4 block py-2 px-6 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 disabled:opacity-50"
+            disabled>
+            Agendar
+        </button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script th:inline="javascript">
+        // Renderiza os dados de horariosOcupados do Thymeleaf para o JS
+
+        /*<![CDATA[*/
+
+        const horariosOcupados = /*[[${horariosOcupados}]]*/ {}; // Ex.: {"2024-12-19":["10:00"],"2024-12-18":["15:00"],"2024-12-17":["12:00"]}
+
+        /*]]>*/
+
+        // Variáveis para armazenar o horário e o dia selecionado
+        let horarioSelecionado = null;
+        let diaSelecionado = null;
+
+        // Função para criar slots de horário
+        function criarHorarios(dataFormatada, slotsId) {
+            const horarios = ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+            const slotsContainer = document.getElementById(slotsId);
+            slotsContainer.innerHTML = ''; // Limpa os slots antes de recriar
+
+            horarios.forEach((hora) => {
+                // Verifica se o horário está ocupado com base no formato do objeto horariosOcupados
+                const ocupado = horariosOcupados[dataFormatada]?.includes(hora);
+
+                // Cria o botão para o horário
+                const slot = document.createElement('button');
+                slot.textContent = hora;
+                slot.className = `w-full py-2 text-center rounded ${ocupado
+                    ? 'bg-red-500 text-white cursor-not-allowed'
+                    : 'bg-green-500 text-white hover:bg-green-400'
+                    } calendar-slot`;
+                slot.disabled = ocupado; // Desabilita o botão se o horário estiver ocupado
+
+                // Adiciona evento de clique apenas para horários disponíveis
+                if (!ocupado) {
+                    slot.addEventListener('click', () => {
+                        // Remove a seleção anterior, se houver
+                        if (horarioSelecionado) {
+                            horarioSelecionado.classList.remove('bg-blue-500');
+                            horarioSelecionado.classList.add('bg-green-500');
+                        }
+                        // Marca o horário atual como selecionado
+                        slot.classList.remove('bg-green-500');
+                        slot.classList.add('bg-blue-500');
+                        horarioSelecionado = slot;
+                        diaSelecionado = dataFormatada;
+
+                        // Atualiza os campos ocultos do formulário
+                        document.getElementById('selected-date').value = diaSelecionado;
+                        document.getElementById('selected-time').value = horarioSelecionado.textContent;
+
+                        // Habilita o botão "Agendar"
+                        document.getElementById('btn-agendar').disabled = false;
+                    });
+                }
+
+                slotsContainer.appendChild(slot); // Adiciona o botão ao container
+            });
+        }
+
+        // Função para ajustar uma data para o fuso horário de Brasília (UTC-3)
+        function ajustarFusoHorario(data) {
+            return new Date(data.getTime() - (data.getTimezoneOffset() + 180) * 60000);
+        }
+
+        // Função para formatar a data no formato dd/MM/yyyy
+        function formatarData(data) {
+            const dia = String(data.getDate()).padStart(2, '0');
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const ano = data.getFullYear();
+            return `${dia}/${mes}/${ano}`;
+        }
+
+        // Função para formatar a data no formato yyyy-MM-dd
+        function formatarDataISO(data) {
+            const ano = data.getFullYear();
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const dia = String(data.getDate()).padStart(2, '0');
+            return `${ano}-${mes}-${dia}`;
+        }
+
+        // Função para atualizar a semana dinamicamente
+        function atualizarSemana(dataBase) {
+            const dias = [];
+            const ids = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
+            // Gerar as datas para a semana (de segunda a sábado)
+            for (let i = 0; i < 6; i++) {
+                const diaSemana = new Date(dataBase);
+                diaSemana.setDate(dataBase.getDate() + i); // Adiciona i dias
+                const diaAjustado = ajustarFusoHorario(diaSemana); // Ajusta para UTC-3
+                dias.push(diaAjustado);
+            }
+
+            // Atualizar os cards com as datas e criar os horários
+            dias.forEach((data, index) => {
+                const dataFormatadaISO = formatarDataISO(data); // Formato yyyy-MM-dd ajustado
+                document.getElementById(ids[index] + '-date').textContent = formatarData(data); // Mostra no formato dd/MM/yyyy
+                criarHorarios(dataFormatadaISO, ids[index] + '-slots'); // Usa o formato yyyy-MM-dd
+            });
+        }
+
+        // Função para alterar a semana ao clicar nos botões
+        let dataBase = ajustarFusoHorario(new Date()); // Data base inicial (primeiro dia da semana, ajustada para UTC-3)
+        document.getElementById('prev-week').addEventListener('click', () => {
+            dataBase.setDate(dataBase.getDate() - 7);
+            atualizarSemana(dataBase);
+        });
+        document.getElementById('next-week').addEventListener('click', () => {
+            dataBase.setDate(dataBase.getDate() + 7);
+            atualizarSemana(dataBase);
+        });
+
+        // Inicializar ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            atualizarSemana(dataBase); // Atualiza a semana com a data inicial
+        });
+    </script>
+
+</body>
+
+</html>
