@@ -42,7 +42,8 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/home", true)
+                .defaultSuccessUrl("/barbearia", true)
+                .failureUrl("/login?error=true") 
                 .permitAll()
             )
             .logout(logout -> logout

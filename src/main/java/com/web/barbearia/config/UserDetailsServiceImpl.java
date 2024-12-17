@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return User.builder()
             .username(pessoa.getEmail())
-            .password(pessoa.getSenha()) // Senha criptografada com BCrypt
+            .password(pessoa.getSenha()) 
             .roles(pessoa.getTipo() == 1 ? "ADM" : "USER")
             .build();
     }
