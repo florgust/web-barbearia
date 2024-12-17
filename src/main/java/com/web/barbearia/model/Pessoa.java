@@ -3,12 +3,7 @@ package com.web.barbearia.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -21,10 +16,23 @@ public class Pessoa implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long codigo;
+
     private String nome;
-    private String senha;
+
+    @Column(nullable = false)
+    private String senha; // Senha deve estar criptografada
+
     private LocalDate nascimento;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
     private String telefone;
+
+    /**
+     * Tipo de usuário:
+     * 1 = ADM
+     * 2 = USER
+     */
     private int tipo;
 }
