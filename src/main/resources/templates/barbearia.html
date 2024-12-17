@@ -21,7 +21,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto space-x-6">
-                    <li class="nav-item"><a class="nav-link text-white hover:text-yellow-400" 
+                    <li class="nav-item"><a class="nav-link text-white hover:text-yellow-400"
                             th:href="@{/pessoas}">Pessoas</a></li>
                     <li class="nav-item"><a class="nav-link text-white hover:text-yellow-400"
                             href="#servicos">Serviços</a></li>
@@ -76,13 +76,15 @@
     </section>
 
     <!-- Lista de Serviços -->
+    <!-- Lista de Serviços -->
     <section class="container mx-auto py-12">
         <h2 class="text-3xl font-bold text-yellow-400 mb-8 text-center">Serviços Disponíveis</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             <!-- Iterando sobre a lista de serviços -->
-            <div th:each="servico : ${barbearia}" class="card bg-gray-700 rounded-lg overflow-hidden shadow-lg">
+            <div th:each="servico : ${barbearia}"
+                class="card bg-gray-700 rounded-lg overflow-hidden shadow-lg flex flex-col justify-between">
                 <img th:src="${servico.urlImagem}" alt="Serviço" class="w-full h-48 object-cover">
-                <div class="p-6">
+                <div class="p-6 flex-grow">
                     <h5 th:text="${servico.titulo}" class="text-xl font-bold text-black"></h5>
                     <p th:text="${servico.descricao}" class="text-sm text-black"></p>
                     <div class="mt-4 flex justify-between items-center">
@@ -90,47 +92,14 @@
                         <p th:text="'Duração: ' + ${servico.tempoDuracao}" class="text-sm text-gray-600"></p>
                     </div>
                 </div>
+                <!-- Botão Agendar -->
+                <div class="p-4">
+                    <a th:href="@{/agendar(id=${servico.id})}"
+                        class="w-full text-center px-6 py-2 bg-yellow-400 text-black font-bold rounded-md hover:bg-yellow-300 transition">
+                        Agendar
+                    </a>
+                </div>
             </div>
-        </div>
-    </section>
-
-
-    <!-- Formulário de Agendamento -->
-    <section id="contato" class="bg-gray-900 text-white py-16">
-        <div class="container">
-            <h2 class="text-3xl font-bold text-yellow-400 mb-8 text-center">Agende seu Horário</h2>
-            <form th:action="@{/agendar}" method="post" class="space-y-6">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                        <label for="nome" class="block text-sm font-medium">Nome:</label>
-                        <input type="text" id="nome" name="nome"
-                            class="form-input w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-md"
-                            placeholder="Seu nome" required>
-                    </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium">E-mail:</label>
-                        <input type="email" id="email" name="email"
-                            class="form-input w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-md"
-                            placeholder="Seu e-mail" required>
-                    </div>
-                </div>
-                <div>
-                    <label for="servico" class="block text-sm font-medium">Serviço:</label>
-                    <select id="servico" name="servico"
-                        class="form-input w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-md">
-                        <option value="Corte Masculino">Corte Masculino</option>
-                        <option value="Barba Dourada">Barba Dourada</option>
-                        <option value="Tratamento Capilar">Tratamento Capilar</option>
-                        <option value="Hidratação de Barba">Hidratação de Barba</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="data" class="block text-sm font-medium">Data e Hora:</label>
-                    <input type="datetime-local" id="data" name="data"
-                        class="form-input w-full p-3 bg-gray-800 text-white border border-gray-600 rounded-md" required>
-                </div>
-                <button type="submit" class="text-3xl font-bold text-yellow-400 mb-8 text-center">Agendar Agora</button>
-            </form>
         </div>
     </section>
 
